@@ -1,0 +1,2 @@
+// Supabase > Project Settings > API. The anon key is public by design (RLS protects data).
+const CFG = { url: "https://fufsxhbvtznhlxygivzk.supabase.co", key: "sb_publishable_jKrVrVkF_AwA50BR9MvbrQ_4LnSMNrr", adminWhatsapp: "2348158907496", demoVideo: "" };
