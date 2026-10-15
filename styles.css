@@ -57,3 +57,5 @@ textarea{width:100%;padding:12px;border:1px solid var(--l);border-radius:12px;fo
 .summary{background:#eef7f1;border-radius:14px;padding:12px;margin:10px 0}.summary .ln{display:flex;justify-content:space-between;padding:4px 0}.summary .tt{border-top:1px solid #cfe3d6;margin-top:6px;padding-top:8px;font-weight:800;font-size:18px;color:var(--g)}
 .center{display:block;text-align:center;color:var(--m);margin:8px 0}
 .success{text-align:center;padding:10px 0}.tick{width:84px;height:84px;margin:10px auto;border-radius:50%;background:var(--g);color:#fff;font-size:48px;display:grid;place-items:center;box-shadow:0 6px 18px #1f7a4d55}
+.paybox{text-align:left;border:2px solid var(--g);margin:14px 0}.paybox p{line-height:1.7}
+select{width:100%;padding:14px;margin:6px 0;border:1px solid var(--l);border-radius:12px;font:inherit;background:var(--bg);color:var(--t)}
