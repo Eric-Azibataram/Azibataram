@@ -8,8 +8,9 @@ Deno.serve(async req=>{
  const {data:{user}}=await sb.auth.getUser();if(!user)return J({error:'unauthorized'},401);
  const {order_id}=await req.json();
  const {data:o}:any=await sb.from('orders').select('total_amount,amount_paid,customers(phone)').eq('id',order_id).single();
- const {data:v}=await sb.from('vendors').select('subaccount_code,plan,plan_expires_at').eq('id',user.id).single();
+ const {data:v}=await sb.from('vendors').select('subaccount_code,plan,plan_expires_at,verification').eq('id',user.id).single();
  if(!v||v.plan!=='pro'||!v.plan_expires_at||new Date(v.plan_expires_at)<new Date())return J({error:'In-app payments are a Pro feature. Upgrade to Pro.'},403);
+ if(v.verification!=='verified')return J({error:'Verify your account first (Plan tab).'},403);
  if(!o||!v?.subaccount_code)return J({error:'Turn on payments first (Tools tab)'},400);
  const amount=Math.round((o.total_amount-o.amount_paid)*100);if(amount<10000)return J({error:'Nothing to pay'},400);
  const fee=Math.round(amount*Number(Deno.env.get('PLATFORM_FEE_PCT')??2)/100);
