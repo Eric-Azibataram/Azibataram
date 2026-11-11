@@ -18,16 +18,36 @@ EXT.receipt=o=>{if(!isPro())return needPro('Receipts and invoices');const c=docu
  g.fillStyle='#777';g.font='26px sans-serif';g.fillText('Thank you for your order!',50,900);g.fillText('WhatsApp: +'+V.whatsapp_number,50,940);
  share(c,'Receipt-'+o.id.slice(0,6)+'.png',(bal>0?'Invoice':'Receipt')+' from '+V.business_name)};
 // 2. Flyer / WhatsApp status poster for a product
-EXT.flyer=p=>{if(!isPro())return needPro('The flyer maker');const c=document.createElement('canvas');c.width=1080;c.height=1920;const g=c.getContext('2d'),G='#1F7A4D',gr=g.createLinearGradient(0,0,0,1920);
- gr.addColorStop(0,G);gr.addColorStop(1,'#0e3d26');g.fillStyle=gr;g.fillRect(0,0,1080,1920);g.fillStyle='#fff';g.textAlign='center';g.font='bold 64px sans-serif';g.fillText(V.business_name.slice(0,28),540,150);
- const draw=img=>{g.save();g.beginPath();g.roundRect(90,230,900,900,48);g.clip();
-  if(img){const k=Math.max(900/img.width,900/img.height),w=img.width*k,h=img.height*k;g.drawImage(img,90+(900-w)/2,230+(900-h)/2,w,h)}else{g.fillStyle='#fff';g.fillRect(90,230,900,900);g.fillStyle=G;g.font='bold 360px sans-serif';g.fillText(p.name[0].toUpperCase(),540,820)}
-  g.restore();g.fillStyle='#fff';g.font='bold 84px sans-serif';const y=wrapT(g,p.name,540,1260,900,96);
-  g.fillStyle='#ffd54f';g.font='bold 110px sans-serif';g.fillText(N(p.price),540,y+60);
-  g.fillStyle='#fff';g.fillRect(140,1620,800,130);g.fillStyle=G;g.font='bold 52px sans-serif';g.fillText('Order on WhatsApp',540,1672);g.font='44px sans-serif';g.fillText('+'+V.whatsapp_number,540,1730);
-  g.fillStyle='#cfe9da';g.font='32px sans-serif';g.fillText(shopLink().replace('https://','').slice(0,60),540,1810);
-  share(c,'flyer-'+p.name.replace(/\W+/g,'-')+'.png',p.name+' - '+N(p.price)+'. Order: '+shopLink())};
- if(p.image_url){const i=new Image();i.crossOrigin='anonymous';i.onload=()=>draw(i);i.onerror=()=>draw(null);i.src=p.image_url}else draw(null)};
+const FLY={emerald:{bg:['#0B3D2E','#04140F'],glow:'#1F9E6A',acc:'#FFC94A',tx:'#FFFFFF',sub:'#BFEBD6',btn:'#FFC94A',btnTx:'#2B2100'},sunset:{bg:['#FF6B57','#7A1F5C'],glow:'#FFB36B',acc:'#FFE082',tx:'#FFFFFF',sub:'#FFE3D6',btn:'#FFFFFF',btnTx:'#7A1F5C'},royal:{bg:['#1B2A6B','#0A0F2C'],glow:'#4F6BFF',acc:'#F5C451',tx:'#FFFFFF',sub:'#C9D3FF',btn:'#F5C451',btnTx:'#1B1B3A'}};
+const loadImg=u=>new Promise(r=>{if(!u)return r(null);const i=new Image();i.crossOrigin='anonymous';i.onload=()=>r(i);i.onerror=()=>r(null);i.src=u});
+EXT.flyer=p=>{if(!isPro())return needPro('The flyer maker');
+ const o=document.createElement('div');o.className='vmodal';
+ o.innerHTML='<div class="vbox pick"><h3>Choose a flyer style</h3>'+Object.keys(FLY).map(k=>`<button class=sty data-k=${k} style="background:linear-gradient(135deg,${FLY[k].bg[0]},${FLY[k].bg[1]});color:${FLY[k].acc}">${k[0].toUpperCase()+k.slice(1)}</button>`).join('')+'<button class=vx>✕</button></div>';
+ o.onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){o.remove();EXT.flyerDraw(p,k)}else if(e.target===o||e.target.className==='vx')o.remove()};document.body.append(o)};
+EXT.flyerDraw=async(p,k)=>{const S=FLY[k],c=document.createElement('canvas');c.width=1080;c.height=1920;const g=c.getContext('2d');
+ const [img,logo]=await Promise.all([loadImg(p.image_url),loadImg(V.logo_url)]);
+ const gr=g.createLinearGradient(0,0,0,1920);gr.addColorStop(0,S.bg[0]);gr.addColorStop(1,S.bg[1]);g.fillStyle=gr;g.fillRect(0,0,1080,1920);
+ const glow=(x,y,r,a)=>{const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,S.glow+a);q.addColorStop(1,S.glow+'00');g.fillStyle=q;g.fillRect(0,0,1080,1920)};
+ glow(960,220,720,'99');glow(60,1560,820,'66');
+ g.textAlign='left';
+ g.save();g.beginPath();g.arc(140,140,64,0,7);g.clip();
+ if(logo){g.drawImage(logo,76,76,128,128)}else{g.fillStyle=S.acc;g.fillRect(76,76,128,128);g.fillStyle=S.bg[1];g.font='bold 72px sans-serif';g.textAlign='center';g.fillText((V.business_name||'S')[0].toUpperCase(),140,168)}
+ g.restore();g.textAlign='left';g.fillStyle=S.tx;g.font='bold 54px sans-serif';g.fillText((V.business_name||'').slice(0,24),230,138);
+ if(V.verification==='verified'){g.fillStyle=S.acc;g.font='34px sans-serif';g.fillText('✓ Verified seller',230,188)}
+ g.fillStyle=S.acc;g.beginPath();g.roundRect(90,270,300,70,35);g.fill();g.fillStyle=S.btnTx;g.font='bold 34px sans-serif';g.textAlign='center';g.fillText('ORDER NOW',240,317);g.textAlign='left';
+ g.save();g.shadowColor='#000b';g.shadowBlur=60;g.shadowOffsetY=30;g.fillStyle=S.acc;g.beginPath();g.roundRect(78,368,924,924,64);g.fill();g.restore();
+ g.save();g.beginPath();g.roundRect(90,380,900,900,54);g.clip();
+ if(img){const kk=Math.max(900/img.width,900/img.height),w=img.width*kk,h=img.height*kk;g.drawImage(img,90+(900-w)/2,380+(900-h)/2,w,h)}else{g.fillStyle=S.glow;g.fillRect(90,380,900,900);g.fillStyle=S.tx;g.font='bold 380px sans-serif';g.textAlign='center';g.fillText(p.name[0].toUpperCase(),540,900)}
+ g.restore();g.textAlign='left';
+ let fs=78;g.font='bold '+fs+'px sans-serif';const ps=N(p.price);while(g.measureText(ps).width>470&&fs>40){fs-=4;g.font='bold '+fs+'px sans-serif'}
+ g.save();g.shadowColor='#0008';g.shadowBlur=30;g.shadowOffsetY=12;g.fillStyle=S.acc;g.beginPath();g.roundRect(90,1220,560,128,64);g.fill();g.restore();
+ g.fillStyle=S.btnTx;g.font='bold '+fs+'px sans-serif';g.fillText(ps,130,1220+64+fs*0.35);
+ g.fillStyle=S.tx;g.font='bold 78px sans-serif';let y=wrapT(g,p.name,90,1448,900,90);
+ if(p.description){g.fillStyle=S.sub;g.font='40px sans-serif';wrapT(g,String(p.description).slice(0,90),90,y,900,52)}
+ g.fillStyle=S.btn;g.beginPath();g.roundRect(90,1650,900,136,68);g.fill();
+ g.fillStyle=S.btnTx;g.textAlign='center';g.font='bold 54px sans-serif';g.fillText('Order on WhatsApp',540,1712);g.font='40px sans-serif';g.fillText('+'+V.whatsapp_number,540,1762);
+ g.fillStyle=S.sub;g.font='30px sans-serif';g.fillText(shopLink().replace('https://','').slice(0,60),540,1850);
+ share(c,'flyer-'+p.name.replace(/\W+/g,'-')+'.png',p.name+' - '+N(p.price)+'. Order: '+shopLink())};
 // 3. Products with stock tracking, flyer button
 EXT.products=async()=>{
  const {data=[]}=await sb.from('products').select('*').order('created_at',{ascending:false}),pro=isPro();

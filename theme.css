@@ -1,0 +1,44 @@
+/* Shopa theme: "Emerald Night" (default) and "Golden Day". Loaded after styles.css. */
+:root{--bg:#062B22;--bg2:#0B3D2E;--card:#0E4A38;--card2:#14604A;--t:#F2FFF8;--m:#9FD8BF;--l:#1E6B52;--g:#18A06B;--acc:#FFC94A;--accT:#2B2100;--link:#FFD76A;--nav:#08362A}
+:root[data-theme=day]{--bg:#E3F5EC;--bg2:#FFF1CC;--card:#F6FFF9;--card2:#DDF3E8;--t:#0E2A21;--m:#4B7867;--l:#B7E0CB;--g:#1F7A4D;--acc:#F2A900;--accT:#2B2100;--link:#0B6B43;--nav:#0F5E45}
+body{color:var(--t);background:radial-gradient(circle at 15% 0%,#12624A 0%,transparent 45%),radial-gradient(circle at 100% 40%,#3a2a05 0%,transparent 35%),linear-gradient(180deg,var(--bg),var(--bg2)) fixed}
+:root[data-theme=day] body{background:radial-gradient(circle at 10% 0%,#bfead5 0%,transparent 45%),linear-gradient(180deg,var(--bg),var(--bg2)) fixed}
+a{color:var(--link)}
+input,select,textarea{background:var(--card);color:var(--t);border:1px solid var(--l)}
+input::placeholder,textarea::placeholder{color:var(--m)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);border-color:var(--acc)}
+/* header */
+#top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(135deg,#0F6B4F,#0B3D2E);box-shadow:0 4px 18px #0007;color:#fff}
+#top img{width:36px;height:36px;border-radius:10px}#top div{display:flex;flex-direction:column;line-height:1.2}#top small{color:#BFEBD6;max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{margin-left:auto;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:#355f52;color:#d7f5e6;text-transform:capitalize}.pill.starter{background:#4FC3F7;color:#06303f}.pill.pro{background:linear-gradient(135deg,#FFC94A,#FF9F43);color:#2B2100}
+#top button{background:#ffffff1f;border:0;border-radius:50%;width:34px;height:34px;color:#fff;font-size:16px}
+/* cards and buttons */
+.card,.step,.plan,.stat2{background:linear-gradient(160deg,var(--card),var(--card2));color:var(--t);border:1px solid var(--l);border-left:4px solid var(--g);box-shadow:0 6px 18px #0004}
+.card small,.step p,.stat2 small,.stat2 span{color:var(--m)}
+.card:has(.badge.new){border-left-color:#4FC3F7}.card:has(.badge.confirmed){border-left-color:#FFB300}.card:has(.badge.paid){border-left-color:#3DDC97}.card:has(.badge.delivered){border-left-color:#B388FF}.card:has(.badge.cancelled){border-left-color:#FF6B6B}
+.badge{background:#3a5f54;color:#fff;font-weight:700;text-transform:capitalize}.badge.new{background:#4FC3F7;color:#06303f}.badge.confirmed{background:#FFB300;color:#3b2a00}.badge.paid{background:#3DDC97;color:#063b24}.badge.delivered{background:#B388FF;color:#2a0f5c}.badge.cancelled{background:#FF6B6B;color:#4a0a0a}
+.btn{background:linear-gradient(135deg,var(--acc),#FFE08A);color:var(--accT);box-shadow:0 5px 16px #0006}.btn.alt{background:transparent;color:var(--acc);border:1.5px solid var(--acc);box-shadow:none}.btn.red{background:#E5484D;color:#fff}
+:root[data-theme=day] .btn.alt{color:#7a4f00}
+.hero2 .btn.alt{color:#fff;border-color:#fff}
+.chip{background:var(--card);color:var(--t);border-color:var(--l)}.chip.on{background:var(--acc);color:var(--accT);border-color:var(--acc)}
+.fab{background:linear-gradient(135deg,var(--acc),#FFE08A);color:var(--accT)}
+.stat{border-bottom:1px solid var(--l)}.stat b{color:var(--acc)}
+.stat2 b,.price,.pp{color:var(--acc)}
+.plan.pro{border-color:var(--acc);box-shadow:0 8px 24px #ffc94a33}
+.sec,h1,h2,h3{color:var(--t)}.hero2 h1{color:#fff}.shophead h1{color:#fff}
+.n{background:var(--acc);color:var(--accT)}
+.summary{background:var(--card2);border:1px solid var(--l)}.summary .tt{color:var(--acc);border-top-color:var(--l)}
+.card.sel{outline:3px solid var(--acc);background:linear-gradient(160deg,var(--card2),var(--card))}
+.qty button{border-color:var(--acc);color:var(--acc)}
+.avatar{background:linear-gradient(135deg,var(--g),#0B3D2E);border:2px solid var(--acc)}
+.tick{background:linear-gradient(135deg,#3DDC97,var(--g));box-shadow:0 8px 24px #3ddc9755}
+.paybox{border:2px solid var(--acc)}
+.empty{color:var(--m)}
+.warn{background:#FFF1CC;color:#4a3300}
+details.card summary{color:var(--t)}
+/* bottom tabs */
+#nav{background:var(--nav);border-top:1px solid var(--l);box-shadow:0 -6px 20px #0006}
+#nav a{border:1px solid #2c7a61;color:#BFEBD6;background:#0b4535}
+#nav a.on{background:linear-gradient(135deg,var(--acc),#FFE08A);color:var(--accT);border-color:var(--acc)}
+.vmodal{position:fixed;inset:0;background:#000d;display:grid;place-items:center;z-index:50;padding:12px}.vbox{position:relative;width:100%;max-width:520px}
+.pick{background:#0E4A38;border-radius:18px;padding:18px;color:#fff}.pick h3{margin:0 0 8px;color:#fff}.sty{display:block;width:100%;margin:8px 0;padding:20px;border:1px solid #ffffff44;border-radius:14px;font:800 18px system-ui}
